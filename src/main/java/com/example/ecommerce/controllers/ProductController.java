@@ -1,11 +1,22 @@
 package com.example.ecommerce.controllers;
 
+import com.example.ecommerce.models.Product;
+import com.example.ecommerce.services.Interface.ProductService;
+import com.example.ecommerce.services.Service.ProductServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    private final ProductService productService;
 
+    @Autowired
+    public ProductController(ProductService productService){
+        this.productService = productService;
+    }
 
     /**
      * Retrieves all products.
@@ -13,8 +24,8 @@ public class ProductController {
      * @return All products in JSON format.
      */
     @GetMapping("")
-    public String getAllProducts(){
-        return  "product list";
+    public List<Product> getAllProducts(){
+        return productService.findAll();
     }
 
 
@@ -25,8 +36,14 @@ public class ProductController {
      * @return product object in JSON format.
      */
     @GetMapping("{id}")
-    public String getProduct(@PathVariable int id){
-        return  "get product by id";
+    public Product getProduct(@PathVariable int id){
+        Product product = productService.findById(id);
+
+        if(product == null){
+            throw new RuntimeException("Product id not found- "+ id);
+        }
+
+        return product;
     }
 
     /**
@@ -35,8 +52,9 @@ public class ProductController {
      * @return the created product object in JSON format.
      */
     @PostMapping("")
-    public String createProduct(){
-        return  "product created";
+    public Product createProduct(@RequestBody Product product){
+        product.setId(0);
+        return  productService.save(product);
     }
 
     /**
@@ -46,8 +64,8 @@ public class ProductController {
      * @return updated product in JSON format.
      */
     @PutMapping("{id}")
-    public String updateProduct(){
-        return  "product created";
+    public Product updateProduct(@PathVariable int id, @RequestBody Product product){
+        return  productService.save(product);
     }
 
 
@@ -58,8 +76,16 @@ public class ProductController {
      * @return deleted product in JSON format.
      */
     @DeleteMapping("{id}")
-    public String deleteProduct(){
-        return  "product created";
+    public String deleteProduct(@PathVariable int id){
+        Product dbProduct = productService.findById(id);
+
+        if(dbProduct == null){
+            throw new RuntimeException("Employee id not found - "+id);
+        }
+
+        productService.deleteById(id);
+
+        return "Deleted employee id - "+id;
     }
 
 
