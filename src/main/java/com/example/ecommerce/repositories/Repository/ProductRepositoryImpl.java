@@ -34,7 +34,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        TypedQuery<Product> theQuery = entityManager.createQuery("FROM PRODUCT order by name",Product.class);
+        TypedQuery<Product> theQuery = entityManager.createQuery("FROM product order by name",Product.class);
         return theQuery.getResultList();
     }
 
