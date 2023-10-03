@@ -64,7 +64,7 @@ public class ProductController {
      */
     @PutMapping("{id}")
     public Product updateProduct(@PathVariable int id, @RequestBody Product product){
-        return  productService.save(product);
+        return  productService.Update(product);
     }
 
 

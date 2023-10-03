@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
         if(result!=null){
             dbProduct = result;
         }else{
-            throw new RuntimeException("Didn't find employee id - "+id);
+            throw new RuntimeException("Didn't find product id - "+id);
         }
         return dbProduct;
     }
@@ -39,6 +39,12 @@ public class ProductServiceImpl implements ProductService {
     public Product save(Product product) {
         return productRepository.save(product);
     }
+
+    @Override
+    public Product Update(Product product) {
+        return productRepository.update(product);
+    }
+
 
     @Override
     public void deleteById(int id) {
