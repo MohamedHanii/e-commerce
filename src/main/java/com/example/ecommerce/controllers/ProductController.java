@@ -1,8 +1,10 @@
 package com.example.ecommerce.controllers;
 
-import com.example.ecommerce.entity.Product;
+import com.example.ecommerce.model.Product;
 import com.example.ecommerce.services.Interface.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +20,9 @@ public class ProductController {
     }
 
     /**
-     * Retrieves all products.
+     * Retrieves a list of all products.
      *
-     * @return All products in JSON format.
+     * @return A list of all products in JSON format.
      */
     @GetMapping("")
     public List<Product> getAllProducts(){
@@ -29,62 +31,67 @@ public class ProductController {
 
 
     /**
-     * Retrieves a product's information by id.
+     * Retrieves product information by its unique identifier.
      *
      * @param id The unique identifier of the product.
-     * @return product object in JSON format.
+     * @return The product object in JSON format, or a 404 Not Found response if not found.
      */
     @GetMapping("{id}")
-    public Product getProduct(@PathVariable int id){
+    public  ResponseEntity<Product> getProduct(@PathVariable int id){
         Product product = productService.findById(id);
-
         if(product == null){
-            throw new RuntimeException("Product id not found- "+ id);
+            return ResponseEntity.notFound().build();
         }
-
-        return product;
+        return ResponseEntity.ok(product);
     }
 
     /**
-     * create new product.
+     * Creates a new product.
      *
-     * @return the created product object in JSON format.
+     * @param product The product object to be created.
+     * @return The created product object in JSON format with a 201 Created response status.
      */
     @PostMapping("")
-    public Product createProduct(@RequestBody Product product){
-        product.setId(0);
-        return  productService.save(product);
+    public  ResponseEntity<Product> createProduct(@RequestBody Product product){
+        Product newProduct = productService.createProduct(product);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     /**
-     * Retrieves a user's profile information by their user ID.
+     * Updates product information by its unique identifier.
      *
      * @param id The unique identifier of the product.
-     * @return updated product in JSON format.
+     * @param product The updated product information.
+     * @return The updated product in JSON format, or a 404 Not Found response if not found.
      */
     @PutMapping("{id}")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product){
-        return  productService.Update(product);
+    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
+        Product updated = productService.updateProduct(id, product);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
     /**
-     * Retrieves a user's profile information by their user ID.
+     * Deletes a product by its unique identifier.
      *
-     * @param id The unique identifier of the product.
-     * @return deleted product in JSON format.
+     * @param id The unique identifier of the product to be deleted.
+     * @return A 204 No Content response if the product was deleted successfully,
+     *         or a 404 Not Found response if the product was not found.
      */
     @DeleteMapping("{id}")
-    public String deleteProduct(@PathVariable int id){
+    public ResponseEntity<Void> deleteProduct(@PathVariable int id){
         Product dbProduct = productService.findById(id);
 
         if(dbProduct == null){
-            throw new RuntimeException("Employee id not found - "+id);
+            return ResponseEntity.notFound().build();
         }
 
         productService.deleteById(id);
-
-        return "Deleted employee id - "+id;
+        return ResponseEntity.noContent().build();
     }
 
 
