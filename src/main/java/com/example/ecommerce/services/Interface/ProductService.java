@@ -1,6 +1,6 @@
 package com.example.ecommerce.services.Interface;
 
-import com.example.ecommerce.entity.Product;
+import com.example.ecommerce.model.Product;
 
 import java.util.List;
 
@@ -9,8 +9,9 @@ public interface ProductService {
 
     Product findById(int id);
 
-    Product save(Product product);
+    Product createProduct(Product product);
 
-    Product Update(Product product);
+    Product updateProduct(int id, Product product);
+
     void deleteById(int id);
 }
