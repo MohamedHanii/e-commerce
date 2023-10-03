@@ -63,9 +63,13 @@ public class ProductController {
      * @param id The unique identifier of the product.
      * @param product The updated product information.
      * @return The updated product in JSON format, or a 404 Not Found response if not found.
+     *          or 400 if the id not equals the product id in body
      */
     @PutMapping("{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
+        if(id != product.getId()){
+            return ResponseEntity.badRequest().build();
+        }
         Product updated = productService.updateProduct(id, product);
         if (updated != null) {
             return ResponseEntity.ok(updated);
