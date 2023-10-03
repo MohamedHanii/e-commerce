@@ -7,18 +7,18 @@ import jakarta.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @Column(name="name")
-    private String productName;
+    private String name;
 
     @Column(name="price")
-    private double productPrice;
+    private double price;
 
     @Column(name="description")
-    private String productDescription;
+    private String description;
 
 
     public Product() {
@@ -26,15 +26,15 @@ public class Product {
 
     public Product(int id, String productName, double productPrice, String productDescription) {
         this.id = id;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productDescription = productDescription;
+        this.name = productName;
+        this.price = productPrice;
+        this.description = productDescription;
     }
 
     public Product(String productName, double productPrice, String productDescription) {
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productDescription = productDescription;
+        this.name = productName;
+        this.price = productPrice;
+        this.description = productDescription;
     }
 
     public int getId() {
@@ -45,37 +45,37 @@ public class Product {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getProductPrice() {
-        return productPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", productPrice=" + productPrice +
-                ", productDescription='" + productDescription + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
