@@ -1,6 +1,6 @@
 package com.example.ecommerce.repositories.Repository;
 
-import com.example.ecommerce.models.Product;
+import com.example.ecommerce.entity.Product;
 import com.example.ecommerce.repositories.Interface.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -34,7 +34,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        TypedQuery<Product> theQuery = entityManager.createQuery("FROM product order by name",Product.class);
+        TypedQuery<Product> theQuery = entityManager.createQuery("FROM Product",Product.class);
         return theQuery.getResultList();
     }
 

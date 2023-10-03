@@ -1,6 +1,6 @@
 package com.example.ecommerce.repositories.Interface;
 
-import com.example.ecommerce.models.Product;
+import com.example.ecommerce.entity.Product;
 
 import java.util.List;
 
