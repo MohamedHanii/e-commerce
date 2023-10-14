@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
-    private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationService authenticationService){
+    public UserController(UserService userService){
         this.userService = userService;
-        this.authenticationService = authenticationService;
     }
 
     /**
@@ -26,10 +24,6 @@ public class UserController {
      *
      * @return A list of all products in JSON format.
      */
-    @GetMapping("{username}")
-    public User getByUsername(@PathVariable String username){
-        return userService.findByUsername(username);
-    }
 
 
 //

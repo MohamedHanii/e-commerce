@@ -32,13 +32,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        // Return a collection of granted authorities (roles/permissions) associated with the user
-//        return Collections.singleton(new SimpleGrantedAuthority(this.role.getName()));
-//    }
-
-
     public User() {
     }
 

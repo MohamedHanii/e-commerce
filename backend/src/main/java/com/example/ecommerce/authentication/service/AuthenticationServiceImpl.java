@@ -7,6 +7,7 @@ import com.example.ecommerce.authentication.model.DTO.RegisterRequestDTO;
 import com.example.ecommerce.user.model.entity.Role;
 import com.example.ecommerce.user.model.entity.User;
 import com.example.ecommerce.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,12 +24,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+
+    @Autowired
     public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
+    
 
     @Override
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request) {
