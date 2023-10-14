@@ -13,7 +13,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name")
+    @Column(name="role_name")
     private String name;
 
     @OneToMany(mappedBy = "role")
@@ -26,6 +26,11 @@ public class Role {
         this.id = id;
         this.name = name;
         this.users = users;
+    }
+
+
+    public Role(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

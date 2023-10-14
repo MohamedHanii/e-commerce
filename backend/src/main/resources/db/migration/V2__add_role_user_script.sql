@@ -1,7 +1,7 @@
 -- Create the Role table
 CREATE TABLE Role (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    roleName VARCHAR(255) NOT NULL
+    role_name VARCHAR(255) NOT NULL
 );
 
 -- Create the User table
@@ -15,6 +15,6 @@ CREATE TABLE User (
 );
 
 -- Seed the Role table with roles
-INSERT INTO Role (roleName) VALUES ('user');
-INSERT INTO Role (roleName) VALUES ('admin');
-INSERT INTO Role (roleName) VALUES ('super admin');
+INSERT INTO Role (role_name) VALUES ('user');
+INSERT INTO Role (role_name) VALUES ('admin');
+INSERT INTO Role (role_name) VALUES ('super admin');

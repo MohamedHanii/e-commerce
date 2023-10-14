@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/auth")
 public class UserController {
 
     private final UserService userService;
@@ -32,31 +32,27 @@ public class UserController {
 
 
     /**
-     * Retrieves product information by its unique identifier.
+     * Creates a new user.
      *
-     * @param id The unique identifier of the product.
-     * @return The product object in JSON format, or a 404 Not Found response if not found.
+     * @param user The user object to be created.
+     * @return The created user object in JSON format with a 201 Created response status.
      */
-//    @GetMapping("{id}")
-//    public ResponseEntity<Product> getProduct(@PathVariable int id){
-//        Product product = productService.findById(id);
-//        if(product == null){
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(product);
-//    }
-//
-//    /**
-//     * Creates a new product.
-//     *
-//     * @param product The product object to be created.
-//     * @return The created product object in JSON format with a 201 Created response status.
-//     */
     @PostMapping("")
     public ResponseEntity<User> createProduct(@RequestBody User user){
         User newUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+        return ResponseEntity.ok(userService.register(request));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
+        return ResponseEntity.ok(userService.authenticate(request));
+    }
+
 //
 //    /**
 //     * Updates product information by its unique identifier.
