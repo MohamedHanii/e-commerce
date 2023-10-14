@@ -1,6 +1,6 @@
-package com.example.ecommerce.services.Interface;
+package com.example.ecommerce.product.service;
 
-import com.example.ecommerce.model.Product;
+import com.example.ecommerce.product.model.entity.Product;
 
 import java.util.List;
 

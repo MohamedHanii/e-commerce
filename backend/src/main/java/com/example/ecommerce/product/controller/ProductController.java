@@ -1,7 +1,7 @@
-package com.example.ecommerce.controllers;
+package com.example.ecommerce.product.controller;
 
-import com.example.ecommerce.model.Product;
-import com.example.ecommerce.services.Interface.ProductService;
+import com.example.ecommerce.product.model.entity.Product;
+import com.example.ecommerce.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

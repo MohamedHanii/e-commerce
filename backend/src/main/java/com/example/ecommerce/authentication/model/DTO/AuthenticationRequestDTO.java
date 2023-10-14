@@ -1,6 +1,6 @@
-package com.example.ecommerce.controllers;
+package com.example.ecommerce.authentication.model.DTO;
 
-public class AuthenticationRequest {
+public class AuthenticationRequestDTO {
 
     private String username;
     private String password;
@@ -22,10 +22,10 @@ public class AuthenticationRequest {
         this.password = password;
     }
 
-    public AuthenticationRequest() {
+    public AuthenticationRequestDTO() {
     }
 
-    public AuthenticationRequest(String username, String password) {
+    public AuthenticationRequestDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

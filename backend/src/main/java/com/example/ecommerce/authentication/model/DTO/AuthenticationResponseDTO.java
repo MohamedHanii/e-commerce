@@ -1,7 +1,7 @@
-package com.example.ecommerce.controllers;
+package com.example.ecommerce.authentication.model.DTO;
 
 
-public class AuthenticationResponse {
+public class AuthenticationResponseDTO {
     private String token;
 
     public String getToken() {
@@ -12,10 +12,10 @@ public class AuthenticationResponse {
         this.token = token;
     }
 
-    public AuthenticationResponse(String token) {
+    public AuthenticationResponseDTO(String token) {
         this.token = token;
     }
 
-    public AuthenticationResponse() {
+    public AuthenticationResponseDTO() {
     }
 }

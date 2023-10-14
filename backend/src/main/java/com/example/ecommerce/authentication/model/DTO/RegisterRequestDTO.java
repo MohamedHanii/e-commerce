@@ -1,6 +1,6 @@
-package com.example.ecommerce.controllers;
+package com.example.ecommerce.authentication.model.DTO;
 
-public class RegisterRequest {
+public class RegisterRequestDTO {
 
     private String firstName;
     private String lastName;
@@ -40,10 +40,10 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    public RegisterRequest() {
+    public RegisterRequestDTO() {
     }
 
-    public RegisterRequest(String firstName, String lastName, String username, String password) {
+    public RegisterRequestDTO(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

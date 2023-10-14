@@ -1,11 +1,10 @@
-package com.example.ecommerce.controllers;
+package com.example.ecommerce.user.controller;
 
 
-import com.example.ecommerce.model.User;
-import com.example.ecommerce.services.Interface.UserService;
+import com.example.ecommerce.user.model.entity.User;
+import com.example.ecommerce.authentication.service.AuthenticationService;
+import com.example.ecommerce.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, AuthenticationService authenticationService){
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     /**
@@ -30,28 +31,6 @@ public class UserController {
         return userService.findByUsername(username);
     }
 
-
-    /**
-     * Creates a new user.
-     *
-     * @param user The user object to be created.
-     * @return The created user object in JSON format with a 201 Created response status.
-     */
-    @PostMapping("")
-    public ResponseEntity<User> createProduct(@RequestBody User user){
-        User newUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(userService.register(request));
-    }
-
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok(userService.authenticate(request));
-    }
 
 //
 //    /**
