@@ -7,6 +7,15 @@ public class RegisterRequestDTO {
     private String username;
 
     private String password;
+    private Long roleId;
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -43,12 +52,12 @@ public class RegisterRequestDTO {
     public RegisterRequestDTO() {
     }
 
-    public RegisterRequestDTO(String firstName, String lastName, String username, String password) {
+    public RegisterRequestDTO(String firstName, String lastName, String username, String password, Long roleId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
+        this.roleId = roleId;
     }
-
 }
 

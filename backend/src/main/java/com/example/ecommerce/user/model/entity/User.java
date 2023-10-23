@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -103,7 +103,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getName()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.getName()));
     }
 
     @Override
