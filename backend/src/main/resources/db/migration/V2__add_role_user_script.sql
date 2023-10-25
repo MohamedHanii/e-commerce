@@ -15,6 +15,6 @@ CREATE TABLE User (
 );
 
 -- Seed the Role table with roles
-INSERT INTO Role (role_name) VALUES ('user');
-INSERT INTO Role (role_name) VALUES ('admin');
-INSERT INTO Role (role_name) VALUES ('super admin');
+INSERT INTO Role (role_name) VALUES ('USER');
+INSERT INTO Role (role_name) VALUES ('ADMIN');
+INSERT INTO Role (role_name) VALUES ('MANAGER');
