@@ -6,6 +6,7 @@ public class RegisterRequestDTO {
     private String lastName;
     private String username;
 
+    private String email;
     private String password;
     private Long roleId;
 
@@ -15,6 +16,14 @@ public class RegisterRequestDTO {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -52,12 +61,13 @@ public class RegisterRequestDTO {
     public RegisterRequestDTO() {
     }
 
-    public RegisterRequestDTO(String firstName, String lastName, String username, String password, Long roleId) {
+    public RegisterRequestDTO(String firstName, String lastName, String username, String password, Long roleId,String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.roleId = roleId;
+        this.email = email;
     }
 }
 
