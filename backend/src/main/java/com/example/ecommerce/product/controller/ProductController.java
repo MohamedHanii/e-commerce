@@ -1,5 +1,6 @@
 package com.example.ecommerce.product.controller;
 
+import com.example.ecommerce.product.model.DTO.ProductDTO;
 import com.example.ecommerce.product.model.entity.Product;
 import com.example.ecommerce.product.service.ProductService;
 import com.example.ecommerce.user.model.enums.Role;
@@ -65,17 +66,19 @@ public class ProductController {
      * Updates product information by its unique identifier.
      *
      * @param id The unique identifier of the product.
-     * @param product The updated product information.
+     * @param productDTO The updated product information.
      * @return The updated product in JSON format, or a 404 Not Found response if not found.
      *          or 400 if the id not equals the product id in body
      */
     @PutMapping("{id}")
     @PreAuthorize("hasRole('MANAGER')")
-    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
-        if(id != product.getId()){
+    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
+        if(id != productDTO.getProductId()){
             return ResponseEntity.badRequest().build();
         }
-        Product updated = productService.updateProduct(id, product);
+
+        Product updated = productService.updateProduct(id, productDTO);
+
         if (updated != null) {
             return ResponseEntity.ok(updated);
         } else {

@@ -1,5 +1,7 @@
 package com.example.ecommerce.product.service;
 
+import com.example.ecommerce.product.mapper.ProductMapper;
+import com.example.ecommerce.product.model.DTO.ProductDTO;
 import com.example.ecommerce.product.model.entity.Product;
 import com.example.ecommerce.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,13 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository){
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper){
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     @Override
@@ -39,22 +43,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(int id, Product product) {
+    public Product updateProduct(int id, ProductDTO productDTO) {
         // Check if the product exists
-        Product existingProduct = productRepository.findById(id).orElse(null);
-        if (existingProduct == null) {
+        Product dbProduct = productRepository.findById(id).orElse(null);
+        if (dbProduct == null) {
             return null; // or throw an exception
         }
 
         // Update the product's properties
-        //TODO:Add Mapper layer
-        existingProduct.setName(product.getName());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setDescription(product.getDescription());
+        productMapper.updateProductFromDTO(productDTO,dbProduct);
 
 
         // Save the updated product
-        return productRepository.save(existingProduct);
+        return productRepository.save(dbProduct);
     }
 
 

@@ -10,31 +10,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @Column(name="name")
-    private String name;
+    @Column(name="title")
+    private String productTitle;
+    @Column(name="description")
+    private String description;
+    @Column(name="category")
+    private String category;
+    @Column(name="brand")
+    private String brand;
 
     @Column(name="price")
     private double price;
 
-    @Column(name="description")
-    private String description;
+    @Column(name="stock_quantity")
+    private int stockQuantity;
 
 
     public Product() {
-    }
-
-    public Product(int id, String productName, double productPrice, String productDescription) {
-        this.id = id;
-        this.name = productName;
-        this.price = productPrice;
-        this.description = productDescription;
-    }
-
-    public Product(String productName, double productPrice, String productDescription) {
-        this.name = productName;
-        this.price = productPrice;
-        this.description = productDescription;
     }
 
     public int getId() {
@@ -45,20 +37,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProductTitle() {
+        return productTitle;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
     }
 
     public String getDescription() {
@@ -69,13 +53,67 @@ public class Product {
         this.description = description;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public Product(String productTitle, String description, String category, String brand, double price, int stockQuantity) {
+        this.productTitle = productTitle;
+        this.description = description;
+        this.category = category;
+        this.brand = brand;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public Product(int id, String productTitle, String description, String category, String brand, double price, int stockQuantity) {
+        this.id = id;
+        this.productTitle = productTitle;
+        this.description = description;
+        this.category = category;
+        this.brand = brand;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
+                ", productTitle='" + productTitle + '\'' +
                 ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
+                ", brand='" + brand + '\'' +
+                ", price=" + price +
+                ", stockQuantity=" + stockQuantity +
                 '}';
     }
 }
