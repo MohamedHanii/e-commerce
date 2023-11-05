@@ -1,0 +1,4 @@
+ALTER TABLE User
+ADD last_name VARCHAR(255),
+ADD email VARCHAR(255),
+CHANGE name first_name VARCHAR(255);

@@ -4,9 +4,9 @@ import com.example.ecommerce.config.JwtService;
 import com.example.ecommerce.authentication.model.DTO.AuthenticationRequestDTO;
 import com.example.ecommerce.authentication.model.DTO.AuthenticationResponseDTO;
 import com.example.ecommerce.authentication.model.DTO.RegisterRequestDTO;
+import com.example.ecommerce.user.mapper.UserMapper;
 import com.example.ecommerce.user.model.entity.Role;
 import com.example.ecommerce.user.model.entity.User;
-import com.example.ecommerce.user.repository.RoleRepository;
 import com.example.ecommerce.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,21 +19,23 @@ import org.springframework.stereotype.Service;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
 
     @Autowired
-    public AuthenticationServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.userMapper = userMapper;
     }
     
 
@@ -51,8 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
-//        Role role  = roleRepository.getReferenceById(request.getRoleId());
-        User user = new User(request.getUsername(),passwordEncoder.encode(request.getPassword()), request.getFirstName(),new Role(request.getRoleId()));
+        User user = userMapper.registerRequestDTOToUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponseDTO(jwtToken);

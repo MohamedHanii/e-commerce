@@ -1,15 +1,23 @@
 package com.example.ecommerce.user.controller;
 
 
+import com.example.ecommerce.product.model.entity.Product;
+import com.example.ecommerce.user.model.DTO.UserDTO;
 import com.example.ecommerce.user.model.entity.User;
 import com.example.ecommerce.authentication.service.AuthenticationService;
 import com.example.ecommerce.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
     private final UserService userService;
@@ -19,53 +27,51 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * Retrieves a list of all products.
-     *
-     * @return A list of all products in JSON format.
-     */
+
+    @GetMapping("")
+    public List<UserDTO> getAllUsers(){
+        List<User> users =  userService.findAllUsers();
+        // move to service or repository
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(User user : users){
+            UserDTO  userDTO  = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setFirstname(user.getFirstname());
+            userDTO.setLastname(user.getLastname());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setUsername(user.getUsername());
+            userDTOS.add(userDTO);
+        }
+
+        return userDTOS;
+    }
 
 
-//
-//    /**
-//     * Updates product information by its unique identifier.
-//     *
-//     * @param id The unique identifier of the product.
-//     * @param product The updated product information.
-//     * @return The updated product in JSON format, or a 404 Not Found response if not found.
-//     *          or 400 if the id not equals the product id in body
-//     */
-//    @PutMapping("{id}")
-//    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
-//        if(id != product.getId()){
-//            return ResponseEntity.badRequest().build();
-//        }
-//        Product updated = productService.updateProduct(id, product);
-//        if (updated != null) {
-//            return ResponseEntity.ok(updated);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
-//
-//    /**
-//     * Deletes a product by its unique identifier.
-//     *
-//     * @param id The unique identifier of the product to be deleted.
-//     * @return A 204 No Content response if the product was deleted successfully,
-//     *         or a 404 Not Found response if the product was not found.
-//     */
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Void> deleteProduct(@PathVariable int id){
-//        Product dbProduct = productService.findById(id);
-//
-//        if(dbProduct == null){
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        productService.deleteById(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping("{id}")
+    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user){
+        if(id != user.getId()){
+            return ResponseEntity.badRequest().build();
+        }
+        User updated = userService.updateUser(id, user);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable int id){
+        User dbUser = userService.findById(id);
+
+        if(dbUser == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        userService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }
