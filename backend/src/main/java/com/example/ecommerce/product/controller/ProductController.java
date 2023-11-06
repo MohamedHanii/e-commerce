@@ -3,24 +3,27 @@ package com.example.ecommerce.product.controller;
 import com.example.ecommerce.product.model.DTO.ProductDTO;
 import com.example.ecommerce.product.model.entity.Product;
 import com.example.ecommerce.product.service.ProductService;
-import com.example.ecommerce.user.model.enums.Role;
+import com.example.ecommerce.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
+
+    private final SecurityUtils securityUtils;
     @Autowired
-    public ProductController(ProductService productService){
+    public ProductController(ProductService productService,SecurityUtils securityUtils){
         this.productService = productService;
+        this.securityUtils = securityUtils;
     }
 
 
@@ -43,6 +46,7 @@ public class ProductController {
      */
     @GetMapping("{id}")
     public  ResponseEntity<ProductDTO> getProduct(@PathVariable int id){
+        Long userId = securityUtils.getCurrentUserId();
         ProductDTO product = productService.findById(id);
         if(product == null){
             return ResponseEntity.notFound().build();
@@ -59,6 +63,8 @@ public class ProductController {
     @PostMapping("")
     @PreAuthorize("hasRole('MANAGER')")
     public  ResponseEntity<Product> createProduct(@RequestBody ProductDTO product){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object userId =  authentication.getPrincipal();
         Product newProduct = productService.createProduct(product);
         return  ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }

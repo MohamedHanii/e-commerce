@@ -1,5 +1,6 @@
 package com.example.ecommerce.product.model.entity;
 
+import com.example.ecommerce.user.model.entity.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,13 +19,14 @@ public class Product {
     private String category;
     @Column(name="brand")
     private String brand;
-
     @Column(name="price")
     private double price;
-
     @Column(name="stock_quantity")
     private int stockQuantity;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Product() {
     }
@@ -83,6 +85,15 @@ public class Product {
 
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Product(String productTitle, String description, String category, String brand, double price, int stockQuantity) {
