@@ -6,13 +6,13 @@ import com.example.ecommerce.product.model.entity.Product;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> findAll();
+    List<ProductDTO> findAll();
 
-    Product findById(int id);
+    ProductDTO findById(int id);
 
-    Product createProduct(Product product);
+    Product createProduct(ProductDTO productDTO);
 
-    Product updateProduct(int id, ProductDTO productDTO);
+    ProductDTO updateProduct(int id, ProductDTO productDTO);
 
     void deleteById(int id);
 }

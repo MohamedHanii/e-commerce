@@ -23,13 +23,14 @@ public class ProductController {
         this.productService = productService;
     }
 
+
     /**
      * Retrieves a list of all products.
      *
      * @return A list of all products in JSON format.
      */
     @GetMapping("")
-    public List<Product> getAllProducts(){
+    public List<ProductDTO> getAllProducts(){
         return productService.findAll();
     }
 
@@ -41,8 +42,8 @@ public class ProductController {
      * @return The product object in JSON format, or a 404 Not Found response if not found.
      */
     @GetMapping("{id}")
-    public  ResponseEntity<Product> getProduct(@PathVariable int id){
-        Product product = productService.findById(id);
+    public  ResponseEntity<ProductDTO> getProduct(@PathVariable int id){
+        ProductDTO product = productService.findById(id);
         if(product == null){
             return ResponseEntity.notFound().build();
         }
@@ -57,7 +58,7 @@ public class ProductController {
      */
     @PostMapping("")
     @PreAuthorize("hasRole('MANAGER')")
-    public  ResponseEntity<Product> createProduct(@RequestBody Product product){
+    public  ResponseEntity<Product> createProduct(@RequestBody ProductDTO product){
         Product newProduct = productService.createProduct(product);
         return  ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
@@ -72,15 +73,15 @@ public class ProductController {
      */
     @PutMapping("{id}")
     @PreAuthorize("hasRole('MANAGER')")
-    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
         if(id != productDTO.getProductId()){
             return ResponseEntity.badRequest().build();
         }
 
-        Product updated = productService.updateProduct(id, productDTO);
+        ProductDTO updated = productService.updateProduct(id, productDTO);
 
         if (updated != null) {
-            return ResponseEntity.ok(updated);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(updated);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -97,7 +98,7 @@ public class ProductController {
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<Void> deleteProduct(@PathVariable int id){
-        Product dbProduct = productService.findById(id);
+        ProductDTO dbProduct = productService.findById(id);
 
         if(dbProduct == null){
             return ResponseEntity.notFound().build();

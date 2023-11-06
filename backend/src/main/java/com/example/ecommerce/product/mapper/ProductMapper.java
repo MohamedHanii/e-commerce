@@ -9,6 +9,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
@@ -20,5 +22,9 @@ public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
     void updateProductFromDTO(ProductDTO productDTO, @MappingTarget Product product);
+
+    @Mapping(source = "id", target = "productId")
+    List<ProductDTO> productsToProductDTOs(List<Product> products);
+
 
 }
