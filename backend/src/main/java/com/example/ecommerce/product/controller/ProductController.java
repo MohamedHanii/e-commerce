@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-
     private final SecurityUtils securityUtils;
+
     @Autowired
     public ProductController(ProductService productService,SecurityUtils securityUtils){
         this.productService = productService;
@@ -34,7 +34,8 @@ public class ProductController {
      */
     @GetMapping("")
     public List<ProductDTO> getAllProducts(){
-        return productService.findAll();
+        Long userId = securityUtils.getCurrentUserId();
+        return productService.findAll(userId);
     }
 
 
@@ -47,7 +48,7 @@ public class ProductController {
     @GetMapping("{id}")
     public  ResponseEntity<ProductDTO> getProduct(@PathVariable int id){
         Long userId = securityUtils.getCurrentUserId();
-        ProductDTO product = productService.findById(id);
+        ProductDTO product = productService.findById(id,userId);
         if(product == null){
             return ResponseEntity.notFound().build();
         }
@@ -62,10 +63,9 @@ public class ProductController {
      */
     @PostMapping("")
     @PreAuthorize("hasRole('MANAGER')")
-    public  ResponseEntity<Product> createProduct(@RequestBody ProductDTO product){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object userId =  authentication.getPrincipal();
-        Product newProduct = productService.createProduct(product);
+    public  ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO product){
+        Long userId = securityUtils.getCurrentUserId();
+        ProductDTO newProduct = productService.createProduct(product,userId);
         return  ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
@@ -80,11 +80,12 @@ public class ProductController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
+        Long userId = securityUtils.getCurrentUserId();
         if(id != productDTO.getProductId()){
             return ResponseEntity.badRequest().build();
         }
 
-        ProductDTO updated = productService.updateProduct(id, productDTO);
+        ProductDTO updated = productService.updateProduct(id, productDTO,userId);
 
         if (updated != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(updated);
@@ -104,7 +105,9 @@ public class ProductController {
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<Void> deleteProduct(@PathVariable int id){
-        ProductDTO dbProduct = productService.findById(id);
+        Long userId = securityUtils.getCurrentUserId();
+
+        ProductDTO dbProduct = productService.findById(id, userId);
 
         if(dbProduct == null){
             return ResponseEntity.notFound().build();

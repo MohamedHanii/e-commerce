@@ -1,6 +1,5 @@
 package com.example.ecommerce.product.mapper;
 
-import com.example.ecommerce.authentication.model.DTO.RegisterRequestDTO;
 import com.example.ecommerce.product.model.DTO.ProductDTO;
 import com.example.ecommerce.product.model.entity.Product;
 import com.example.ecommerce.user.model.entity.User;
@@ -15,12 +14,15 @@ import java.util.List;
 public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
     @Mapping(source = "productId", target = "id")
+    @Mapping(source = "productDescription", target = "description")
     Product productDTOToProduct(ProductDTO productDTO);
 
     @Mapping(source = "id", target = "productId")
+    @Mapping(source = "description", target = "productDescription")
     ProductDTO productToProductDTO(Product product);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(source = "productDescription", target = "description")
     void updateProductFromDTO(ProductDTO productDTO, @MappingTarget Product product);
 
     @Mapping(source = "id", target = "productId")

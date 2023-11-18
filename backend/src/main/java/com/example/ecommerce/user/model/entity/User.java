@@ -37,6 +37,7 @@ public class User implements UserDetails {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
+
     private Role role;
 
     @OneToMany(mappedBy = "user")
