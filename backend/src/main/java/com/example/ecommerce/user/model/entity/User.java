@@ -1,6 +1,7 @@
 package com.example.ecommerce.user.model.entity;
 
 
+import com.example.ecommerce.product.model.entity.Product;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,7 +37,11 @@ public class User implements UserDetails {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
+
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Product> products;
 
     public User() {
     }
@@ -58,6 +63,14 @@ public class User implements UserDetails {
         this.firstname = firstname;
         this.lastname = lastname;
         this.role = role;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public String getEmail() {
