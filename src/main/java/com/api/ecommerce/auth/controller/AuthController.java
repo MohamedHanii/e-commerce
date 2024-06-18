@@ -17,9 +17,11 @@ public class AuthController {
     public AuthController(AuthService authService){
         this.authService = authService;
     }
+
     @PostMapping("/register")
     public void registerUser(@Valid @RequestBody CreateUserDTO createUserDTO){
         authService.registerUser(createUserDTO);
     }
+
 
 }
