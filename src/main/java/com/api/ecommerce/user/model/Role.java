@@ -19,6 +19,11 @@ public class Role {
     @OneToMany(mappedBy = "role", orphanRemoval = true)
     private List<User> users = new ArrayList<>();
 
+    public Role(long id, String roleName) {
+        this.id=id;
+        this.roleName=roleName;
+    }
+
     public List<User> getUsers() {
         return users;
     }
