@@ -3,6 +3,7 @@ package com.api.ecommerce.auth.controller;
 
 import com.api.ecommerce.auth.dto.CreateUserDTO;
 import com.api.ecommerce.auth.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class AuthController {
         this.authService = authService;
     }
     @PostMapping("/register")
-    public void registerUser(@RequestBody CreateUserDTO createUserDTO){
+    public void registerUser(@Valid @RequestBody CreateUserDTO createUserDTO){
         authService.registerUser(createUserDTO);
     }
 

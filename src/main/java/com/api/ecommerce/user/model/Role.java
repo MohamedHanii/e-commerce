@@ -19,6 +19,9 @@ public class Role {
     @OneToMany(mappedBy = "role", orphanRemoval = true)
     private List<User> users = new ArrayList<>();
 
+    public Role() {
+    }
+
     public Role(long id, String roleName) {
         this.id=id;
         this.roleName=roleName;
