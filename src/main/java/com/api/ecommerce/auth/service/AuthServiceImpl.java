@@ -1,6 +1,7 @@
 package com.api.ecommerce.auth.service;
 
 import com.api.ecommerce.auth.dto.CreateUserDTO;
+import com.api.ecommerce.auth.dto.LoginUserDTO;
 import com.api.ecommerce.config.JwtService;
 import com.api.ecommerce.user.model.Role;
 import com.api.ecommerce.user.model.User;
@@ -41,13 +42,14 @@ public class AuthServiceImpl implements AuthService {
         System.out.println("token: " + jwtToken);
     }
 
-//    public void authenticate(){
-//        //it will throw error if user not authenticated
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
-//        );
-//        var user = userRepository.findByEmail(request.getEmail())
-//                .orElseThrow();
-//        String  jwtToken = jwtService.generateToken(user);
-//    }
+    public String authenticate(LoginUserDTO loginUserDTO){
+        //it will throw error if user not authenticated
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(),loginUserDTO.getPassword())
+        );
+        var user = userRepository.findByEmail(loginUserDTO.getEmail())
+                .orElseThrow();
+
+        return jwtService.generateToken(user);
+    }
 }

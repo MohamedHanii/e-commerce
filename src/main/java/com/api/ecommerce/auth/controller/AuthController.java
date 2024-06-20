@@ -6,6 +6,7 @@ import com.api.ecommerce.auth.dto.LoginUserDTO;
 import com.api.ecommerce.auth.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,8 +26,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid @RequestBody LoginUserDTO loginUserDTO){
-
+    public ResponseEntity<String> login(@Valid @RequestBody LoginUserDTO loginUserDTO){
+        String token = authService.authenticate(loginUserDTO);
+        return ResponseEntity.ok(token);
     }
 
 
